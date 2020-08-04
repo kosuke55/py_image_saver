@@ -11,13 +11,6 @@ class DepthSaver():
     def __init__(self):
         self.count = 0
         self.bridge = CvBridge()
-        self.subscribe()
-
-    def subscribe(self):
-        self.image_sub = rospy.Subscriber("~image",
-                                          Image,
-                                          self.callback,
-                                          queue_size=1)
         self.filename = rospy.get_param('~filename',
                                         'depth_{:04}')
         self.min_value = rospy.get_param('~min_value', -1)
@@ -25,6 +18,14 @@ class DepthSaver():
 
         self.min_value = None if self.min_value == -1 else self.min_value
         self.max_value = None if self.max_value == -1 else self.max_value
+
+        self.subscribe()
+
+    def subscribe(self):
+        self.image_sub = rospy.Subscriber("~image",
+                                          Image,
+                                          self.callback,
+                                          queue_size=1)
 
     def callback(self, msg):
         depth = self.bridge.imgmsg_to_cv2(msg, "32FC1")
