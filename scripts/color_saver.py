@@ -27,12 +27,12 @@ class ColorSaver():
 
     def subscribe(self):
         if self.save_camera_info:
-            self.camera_info_sub = message_filters.Subscriber(
-                '~camera_info', CameraInfo, queue_size=1, buff_size=2**24)
             self.image_sub = message_filters.Subscriber(
                 '~image', Image, queue_size=1, buff_size=2**24)
+            self.camera_info_sub = message_filters.Subscriber(
+                '~camera_info', CameraInfo, queue_size=1, buff_size=2**24)
             sync = message_filters.ApproximateTimeSynchronizer(
-                [self.camera_info_sub, self.image_sub],
+                [self.image_sub, self.camera_info_sub],
                 queue_size=100, slop=0.1)
             sync.registerCallback(self.callback_image_and_camerainfo)
 
@@ -53,7 +53,7 @@ class ColorSaver():
         self.save_image_msg(msg)
         self.count += 1
 
-    def callback_image_and_camerainfo(self, camera_info_msg, image_msg):
+    def callback_image_and_camerainfo(self, image_msg, camera_info_msg):
         self.save_image_msg(image_msg)
         save_camera_info(
             camera_info_msg, self.camera_info_filename.format(self.count))
