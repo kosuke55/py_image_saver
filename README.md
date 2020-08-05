@@ -10,5 +10,5 @@ rosrun py_image_saver depth_saver.py ~image:=/apply_mask_image_depth/output _min
 
 Save depth and color in current dir.
 ```
-ROS_HOME=`pwd` roslaunch py_image_saver image_saver.launch
+ROS_HOME=`pwd` roslaunch py_image_saver image_saver.launch color_filename:=color depth_filename:=depth
 ```
