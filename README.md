@@ -1,21 +1,26 @@
-Example  
-
+# py_image_saver
+## Example  
+### color
 ```
-# color
 rosrun py_image_saver color_saver.py ~image:=/apply_mask_image_color/output _filename:=color
 rosrun py_image_saver color_saver.py ~image:=/apply_mask_image_color/output _filename:=color _camera_info_filename:=color_camra_info.yaml ~camera_info:=/apply_mask_image_color/output/camera_info  _save_camera_info:=True
+```
 
-# depth
+### depth
+```
 rosrun py_image_saver depth_saver.py ~image:=/apply_mask_image_depth/output _min_value:=200 _max_value:=700 _filename:=depth
 rosrun py_image_saver depth_saver.py ~image:=/apply_mask_image_depth/output _filename:=depth _camera_info_filename:=depth_camra_info.yaml ~camera_info:=/apply_mask_image_depth/output/camera_info  _save_camera_info:=True
-
-# color and depth
+``
+`
+### color and depth
+```
 rosrun py_image_saver color_depth_saver.py ~color:=/apply_mask_image_color/output ~depth:=/apply_mask_image_depth/output _color_filename:=color _depth_filename:=depth _camera_info_filename:=camera_info.yaml 
 ~camera_info:=/apply_mask_image_depth/output/camera_info  _save_camera_info:=True
+```
 
-# use ros service to set idx of filename
+### use ros service to set idx of filename
+```
 rosrun py_image_saver color_depth_saver.py ~color:=/apply_mask_image_color/output ~depth:=/apply_mask_image_depth/output ~camera_info:=/apply_mask_image_depth/output/camera_info  _save_camera_info:=True
 rosservice call set_idx 1
-
-This command saves data like color/000001.npy etc.
 ```
+This command saves data like color/000001.npy etc.
