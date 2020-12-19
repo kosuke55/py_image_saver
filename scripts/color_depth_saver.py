@@ -21,21 +21,18 @@ class ColorDepthSaver():
         self.color_filename = rospy.get_param(
             '~color_filename',
             'color/{:06}')
-        print('------------')
-        print(self.color_filename)
-        print('color_filename: {}'.format(self.color_filename))
         self.depth_filename = rospy.get_param(
             '~depth_filename',
             'depth/{:06}')
-        print('depth_filename: {}'.format(self.depth_filename))
         self.save_camera_info = rospy.get_param(
             '~save_camera_info', True)
         self.camera_info_filename = rospy.get_param(
             '~camera_info_filename',
             'camera_info/{:06}.yaml')
         self.increase_count = rospy.get_param(
-            '~increase_count',
-            False)
+            '~increase_count', False)
+        self.gui = rospy.get_param(
+            '~gui', False)
 
         self.min_value = rospy.get_param('~min_value', -1)
         self.max_value = rospy.get_param('~max_value', -1)
@@ -82,8 +79,9 @@ class ColorDepthSaver():
         color = self.bridge.imgmsg_to_cv2(msg, "bgr8")
         np.save(self.color_filename.format(self.count), color)
         cv2.imwrite(self.color_filename.format(self.count) + '.png', color)
-        cv2.imshow('color', color)
-        cv2.waitKey(1)
+        if self.gui:
+            cv2.imshow('color', color)
+            cv2.waitKey(1)
         print('save ', self.color_filename.format(self.count) + '.png')
 
     def save_depth_msg(self, msg):
@@ -95,8 +93,9 @@ class ColorDepthSaver():
         cv2.imwrite(self.depth_filename.format(
             self.count) + '.png', colorized_depth)
         print('save ', self.depth_filename.format(self.count) + '.png')
-        cv2.imshow('depth', colorized_depth)
-        cv2.waitKey(1)
+        if self.gui:
+            cv2.imshow('depth', colorized_depth)
+            cv2.waitKey(1)
 
     def callback(self, color_msg, depth_msg):
         self.save_color_msg(color_msg)
