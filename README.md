@@ -24,3 +24,10 @@ rosrun py_image_saver color_depth_saver.py ~color:=/apply_mask_image_color/outpu
 rosservice call set_idx 1
 ```
 This command saves data like color/000001.npy etc.
+
+If you make a mistake and set another name, reset it as follows.  
+```
+rosparam set /color_depth_saver/color_filename color/{:06}
+rosparam set /color_depth_saver/depth_filename depth/{:06}
+rosparam set /color_depth_saver/camera_info_filename camera_info/{:06}.yaml
+```
